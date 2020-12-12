@@ -5,18 +5,18 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Main {
-
     public static void main(String[] args) {
-        createFiles();
-        readArg(args);
+        Path toDoPath = createFiles();
+        readArg(args, toDoPath);
     }
 
-    public static void readArg(String[] arg) {
+    public static void readArg(String[] arg, Path toDoPath) {
         if (arg.length == 0) {
             Path manual = Paths.get("userManual.txt");
             try {
@@ -28,25 +28,33 @@ public class Main {
                 System.out.println("UserManual cannot be found :/");
             }
         } else {
+            List<String> toDos = new ArrayList<>();
+            try {
+                toDos = createToDoList();
+            } catch (IOException e) {
+                System.out.println("ToDo list cannot be found");
+            }
             if (arg[0].equals("-l")) {
-                Path toDoList = Paths.get("toDoList.txt");
-                try {
-                    List<String> toDos = Files.readAllLines(toDoList);
-                    if (toDos.size() > 0) {
-                        for(int i = 0; i< toDos.size(); i++) {
-                            System.out.println(i+1 + " - " + toDos.get(i));
-                        }
-                    } else {
-                        System.out.println("Nincs mára tennivalód! :)");
-                    }
-                } catch (IOException e) {
-                    System.out.println("ToDo list cannot be found");
+               ArgumentsHandler.taskLister(toDos);
+
+            } else if(arg[0].equals("-a")){
+                if(arg.length > 1){
+                    String newToDo = arg[1];
+                   toDos = ArgumentsHandler.addToDo(newToDo, toDos, toDoPath);
+                }else{
+                    System.out.println("Nem lehetséges új feladat hozzáadása:");
+                    System.out.println("nincs megadva feladat!");
                 }
             }
         }
     }
 
-    public static void createFiles() {
+    public static List<String> createToDoList() throws IOException {
+        Path toDoList = Paths.get("toDoList.txt");
+        return Files.readAllLines(toDoList);
+    }
+
+    public static Path createFiles() {
         File userManual = new File("userManual.txt");
         File toDoList = new File("toDoList.txt");
         if (!userManual.exists()) {
@@ -69,6 +77,11 @@ public class Main {
             e.printStackTrace();
             System.out.println("Couldn't create new file: toDoList.txt");
         }
+        return Paths.get("toDoList.txt");
+    }
+
+    public static void writeToDos(List<String> toDos){
+
     }
 
 }
