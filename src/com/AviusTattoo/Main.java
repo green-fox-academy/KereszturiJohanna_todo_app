@@ -39,11 +39,19 @@ public class Main {
 
             } else if(arg[0].equals("-a")){
                 if(arg.length > 1){
-                    String newToDo = arg[1];
-                   toDos = ArgumentsHandler.addToDo(newToDo, toDos, toDoPath);
+                    String str = arg[1];
+                   toDos = ArgumentsHandler.addToDo(str, toDos, toDoPath);
                 }else{
                     System.out.println("Nem lehetséges új feladat hozzáadása:");
                     System.out.println("nincs megadva feladat!");
+                }
+            }else if(arg[0].equals("-r")){
+                if(arg.length>1){
+                    String str = arg[1];
+                    toDos = ArgumentsHandler.removeToDo(str, toDos, toDoPath);
+                }else{
+                    System.out.println("Nem lehetséges az eltávolítás:");
+                    System.out.println("nem adott meg indexet!");
                 }
             }
         }
