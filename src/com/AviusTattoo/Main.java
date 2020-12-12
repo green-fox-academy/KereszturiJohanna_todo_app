@@ -2,7 +2,6 @@ package com.AviusTattoo;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,6 +27,22 @@ public class Main {
             } catch (IOException e) {
                 System.out.println("UserManual cannot be found :/");
             }
+        } else {
+            if (arg[0].equals("-l")) {
+                Path toDoList = Paths.get("toDoList.txt");
+                try {
+                    List<String> toDos = Files.readAllLines(toDoList);
+                    if (toDos.size() > 0) {
+                        for(int i = 0; i< toDos.size(); i++) {
+                            System.out.println(i+1 + " - " + toDos.get(i));
+                        }
+                    } else {
+                        System.out.println("Nincs mára tennivalód! :)");
+                    }
+                } catch (IOException e) {
+                    System.out.println("ToDo list cannot be found");
+                }
+            }
         }
     }
 
@@ -48,8 +63,11 @@ public class Main {
             }
         }
 
-        if(!toDoList.exists()){
-            
+        try {
+            toDoList.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println("Couldn't create new file: toDoList.txt");
         }
     }
 
