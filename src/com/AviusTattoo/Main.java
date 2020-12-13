@@ -18,15 +18,7 @@ public class Main {
 
     public static void readArg(String[] arg, Path toDoPath) {
         if (arg.length == 0) {
-            Path manual = Paths.get("userManual.txt");
-            try {
-                List<String> manualLines = Files.readAllLines(manual);
-                for (String manualLine : manualLines) {
-                    System.out.println(manualLine);
-                }
-            } catch (IOException e) {
-                System.out.println("UserManual cannot be found :/");
-            }
+            readManual();
         } else {
             List<String> toDos = new ArrayList<>();
             try {
@@ -53,6 +45,12 @@ public class Main {
                     System.out.println("Nem lehetséges az eltávolítás:");
                     System.out.println("nem adott meg indexet!");
                 }
+            }else if(arg[0].equals("-c")){
+                System.out.println("Ez a funkció jelenleg nem elérhető :(");
+            }else{
+                System.out.println("nem támogatott argumentum!");
+                System.out.println();
+                readManual();
             }
         }
     }
@@ -88,8 +86,16 @@ public class Main {
         return Paths.get("toDoList.txt");
     }
 
-    public static void writeToDos(List<String> toDos){
-
+    public static void readManual(){
+        Path manual = Paths.get("userManual.txt");
+        try {
+            List<String> manualLines = Files.readAllLines(manual);
+            for (String manualLine : manualLines) {
+                System.out.println(manualLine);
+            }
+        } catch (IOException e) {
+            System.out.println("UserManual cannot be found :/");
+        }
     }
 
 }
