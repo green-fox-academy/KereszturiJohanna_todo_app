@@ -38,16 +38,19 @@ public class Main {
                     System.out.println("Nem lehetséges új feladat hozzáadása:");
                     System.out.println("nincs megadva feladat!");
                 }
-            } else if (arg[0].equals("-r")) {
+            } else if (arg[0].equals("-r") || (arg[0].equals("-c"))) {
                 if (arg.length > 1) {
                     String str = arg[1];
-                    toDos = ArgumentsHandler.removeToDo(str, toDos, toDoLines, toDoPath);
+                    if ((arg[0].equals("-r"))) {
+                        toDos = ArgumentsHandler.removeToDo(str, toDos, toDoLines, toDoPath);
+                    }
+                    if((arg[0].equals("-c"))){
+                        toDos = ToDoList.finishTask(str, toDos, toDoLines, toDoPath);
+                    }
                 } else {
                     System.out.println("Nem lehetséges az eltávolítás:");
                     System.out.println("nem adott meg indexet!");
                 }
-            } else if (arg[0].equals("-c")) {
-                System.out.println("Ez a funkció jelenleg nem elérhető :(");
             } else {
                 System.out.println("nem támogatott argumentum!");
                 System.out.println();
