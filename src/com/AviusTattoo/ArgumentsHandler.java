@@ -24,6 +24,7 @@ public class ArgumentsHandler {
     }
 
     public static List<String> removeToDo(String toRemove, List<String> toDos, Path toDoPath) {
+        try {
         int removeIndex = Integer.parseInt(toRemove) - 1;
         if (toDos.size() >= removeIndex) {
             toDos.remove(removeIndex);
@@ -31,6 +32,10 @@ public class ArgumentsHandler {
         }else{
             System.out.println("Nem lehetséges az eltávolítás:");
             System.out.println("túlindexelési probléma adódott!");
+        }
+        } catch (NumberFormatException e) {
+            System.out.println("Nem lehetséges az eltávolítás:");
+            System.out.println("a megadott index nem szám!");
         }
         return toDos;
     }
