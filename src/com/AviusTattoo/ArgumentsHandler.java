@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ArgumentsHandler {
 
-    public static void taskLister(List<String> toDos) {
+    public static void taskLister(List<ToDoList> toDos) {
         if (toDos.size() > 0) {
             for (int i = 0; i < toDos.size(); i++) {
                 System.out.println(i + 1 + " - " + toDos.get(i));
@@ -17,18 +17,22 @@ public class ArgumentsHandler {
         }
     }
 
-    public static List<String> addToDo(String newToDo, List<String> toDos, Path toDoPath) {
-        toDos.add(newToDo);
-        fileWriter(toDos, toDoPath);
+    public static List<ToDoList> addToDo(String newToDo, List<ToDoList> toDos, List<String> toDoLines, Path toDoPath) {
+        toDos.add(new ToDoList(newToDo));
+        toDoLines.add(newToDo);
+        FileHandler.fileWriter(toDoLines, toDoPath, "ToDo list cannot be found");
+        ArgumentsHandler.taskLister(toDos);
         return toDos;
     }
 
-    public static List<String> removeToDo(String toRemove, List<String> toDos, Path toDoPath) {
+    public static List<ToDoList> removeToDo(String toRemove, List<ToDoList> toDos, List<String> toDoLines, Path toDoPath) {
         try {
         int removeIndex = Integer.parseInt(toRemove) - 1;
         if (toDos.size() >= removeIndex) {
             toDos.remove(removeIndex);
-            fileWriter(toDos, toDoPath);
+            toDoLines.remove(removeIndex);
+            FileHandler.fileWriter(toDoLines, toDoPath, "ToDo list cannot be found");
+            ArgumentsHandler.taskLister(toDos);
         }else{
             System.out.println("Nem lehetséges az eltávolítás:");
             System.out.println("túlindexelési probléma adódott!");
@@ -40,12 +44,4 @@ public class ArgumentsHandler {
         return toDos;
     }
 
-    private static void fileWriter(List<String> toDos, Path toDoPath) {
-        try {
-            Files.write(toDoPath, toDos);
-        } catch (IOException e) {
-            System.out.println("ToDo list cannot be found");
-        }
-        taskLister(toDos);
-    }
 }

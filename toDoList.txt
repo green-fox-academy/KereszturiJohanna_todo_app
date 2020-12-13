@@ -1,6 +1,6 @@
-Kutyát sétáltatni
-Nyuszit simogatni
-Madár etetőt összeszerelni
-Lovat fürdetni
-Báránykákat fésülni
-Nem tudom mi van
+Kutyát sétáltatni;
+Nyuszit simogatni; true
+Madár etetőt összeszerelni; true
+Lovat fürdetni;
+Báránykákat fésülni;
+cicát megetetni; true
